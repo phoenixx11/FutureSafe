@@ -1,66 +1,167 @@
+/* src/app/styles/Home.module.css */
 
 .container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  padding: 20px;
+  background: linear-gradient(135deg, #0d0d1e, #1a1a3f); /* Dark gradient background */
+  color: #e6e6e6;
+  font-family: 'Inter', sans-serif; /* Consistent modern font */
+}
+
+/* Header Section */
+.header {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  text-align: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
-.videoBackground {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+.loginButtonContainer {
+  margin-right: 20px;
 }
 
+.loginButton {
+  background-color: #00ffff;
+  color: #0d0d1e;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginButton:hover {
+  background-color: #00cccc;
+}
+
+/* Hero Section */
 .heroSection {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #ffffff;
+  padding: 40px 20px;
 }
 
 .heroTitle {
   font-size: 3rem;
-  margin: 0;
-  font-weight: bold;
+  color: #00ffff; /* Neon blue for a futuristic look */
+  text-shadow: 2px 2px 10px rgba(0, 255, 255, 0.7); /* Glowing effect */
+  margin-bottom: 10px;
 }
 
-.heroSubtext {
-  font-size: 1.25rem;
-  margin: 20px 0;
+.heroTagline {
+  font-size: 1.5rem;
+  color: #cccccc; /* Softer color to complement the title */
+  margin-bottom: 30px;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7); /* Dark transparent background behind content */
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+  margin-bottom: 40px;
 }
 
 .ctaButtons {
   display: flex;
+  justify-content: center;
   gap: 20px;
-  margin-top: 20px;
 }
 
 .ctaButton {
+  background: #1a1a3f; /* Dark button background */
+  color: #e6e6e6; /* Light text color */
   padding: 15px 30px;
-  border-radius: 5px;
-  background-color: rgba(0, 255, 255, 0.8);
-  color: #000000;
-  font-size: 1rem;
+  border: 1px solid #00ffff; /* Neon border */
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .ctaButton:hover {
-  background-color: rgba(0, 204, 204, 0.8);
-  transform: scale(1.05);
+  background: #00ffff; /* Neon blue hover effect */
+  color: #0d0d1e;
+  transform: scale(1.05); /* Slight scale-up on hover */
 }
 
+/* Floating Bubble Image */
+.heroImageContainer {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+}
 
-  
+.heroImage {
+  width: 50%;
+  max-width: 600px;
+  height: auto;
+  object-fit: cover;
+  filter: grayscale(50%) contrast(120%); /* Makes the image more intriguing */
+  z-index: 1;
+  border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%; /* Cloud/bubble shape */
+  box-shadow: 0px 0px 100px rgba(0, 255, 255, 0.3); /* Soft glow effect */
+  animation: floating 5s ease-in-out infinite; /* Subtle floating animation */
+}
+
+/* Features Section */
+.featuresSection {
+  padding: 60px 20px;
+  background: #161629; /* Solid dark background */
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.featuresTitle {
+  font-size: 2.5rem;
+  color: #7fdbff; /* Light blue for section title */
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.featureCard {
+  background: rgba(50, 50, 80, 0.7); /* Semi-transparent dark background */
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.featureCard h3 {
+  color: #00ffff; /* Consistent neon accent color */
+  margin-bottom: 10px;
+}
+
+.featureCard p {
+  color: #cfcfcf; /* Light text color */
+}
+
+/* Background Animation */
+@keyframes floating {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+

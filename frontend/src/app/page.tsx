@@ -1,11 +1,21 @@
 import styles from './styles/Home.module.css';
 import Link from 'next/link';
-
+import { LoginButton } from "./LoginButton";
 export default function Home() {
   return (
     <div className={styles.container}>
+          {/* Header with Login Button */}
+          <header className={styles.header}>
+        <div className={styles.loginButtonContainer}>
+          <Link href="/loginButton">
+            <button className={styles.loginButton}>Login</button>
+          </Link>
+        </div>
+      </header>
       {/* Hero Section */}
       <section className={styles.heroSection}>
+      <h1 className={styles.heroTitle}>Time Safe</h1>
+      <p className={styles.heroTagline}>Inspired by Time Machine</p>
         <div className={styles.heroContent}>
           <img src="/assets/time-capsule.jpg" alt="Time Capsule" className={styles.heroImage} />
           <h1 className={styles.heroTitle}>Preserve Your Legacy Across Time</h1>
