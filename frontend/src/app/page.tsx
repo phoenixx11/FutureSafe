@@ -1,4 +1,5 @@
 import styles from './styles/Home.module.css';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -12,7 +13,9 @@ export default function Home() {
             Create, secure, and share your memories with the next generation using our advanced time capsule technology.
           </p>
           <div className={styles.ctaButtons}>
+          <Link href="/create-capsule">
             <button className={styles.ctaButton}>Create a Time Capsule</button>
+          </Link>
             <button className={styles.ctaButton}>Explore Capsules</button>
           </div>
         </div>

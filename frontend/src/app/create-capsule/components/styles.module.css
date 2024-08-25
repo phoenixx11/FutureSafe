@@ -1,0 +1,105 @@
+
+.container {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    max-width: 800px;
+    margin: auto;
+    color: white;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .formContainer {
+    width: 100%;
+  }
+  
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .fileUpload {
+    width: 100%;
+    padding: 20px;
+    border: 2px dashed #00cccc;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .fileUpload:hover {
+    background-color: rgba(0, 204, 204, 0.1);
+  }
+  
+  .fileList {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .fileList li {
+    margin-bottom: 10px;
+  }
+  
+  .dateInput,
+  .emailInput,
+  .textarea,
+  .input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .prevButton,
+  .nextButton,
+  .submitButton,
+  .encryptButton {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: rgba(0, 255, 255, 0.8);
+    color: #000000;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .prevButton:hover,
+  .nextButton:hover,
+  .submitButton:hover,
+  .encryptButton:hover {
+    background-color: rgba(0, 204, 204, 0.8);
+    transform: scale(1.05);
+  }
+  
+  .preview {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  .encryptButton {
+    background-color: rgba(0, 255, 0, 0.8);
+  }
+  
+  .encryptButton:hover {
+    background-color: rgba(0, 204, 0, 0.8);
+  }
+  
