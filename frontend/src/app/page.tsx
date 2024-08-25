@@ -16,7 +16,9 @@ export default function Home() {
           <Link href="/create-capsule">
             <button className={styles.ctaButton}>Create a Time Capsule</button>
           </Link>
+          <Link href="/explore-capsules">
             <button className={styles.ctaButton}>Explore Capsules</button>
+          </Link>
           </div>
         </div>
       </section>
