@@ -1,11 +1,9 @@
 'use client'; 
 import React, { useState } from 'react';
 import styles from './components/styles.module.css';
-import { createTimeCapsuleAttestation, unlockTimeCapsuleAttestation } from '../../utils/attestation';
-import { useTimeCapsuleHook } from '../../hooks/useTimeCapsuleHook';
+import { createTimeCapsuleAttestation } from '../../services/signProtocol'; 
 
 const CreateCapsule: React.FC = () => {
-  const { isAuthorized } = useTimeCapsuleHook();
   const [step, setStep] = useState(1);
 
   // State for form data
