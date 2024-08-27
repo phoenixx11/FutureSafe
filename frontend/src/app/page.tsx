@@ -1,13 +1,14 @@
 import styles from './styles/Home.module.css';
 import Link from 'next/link';
-import { LoginButton } from "./LoginButton";
+//import LoginButton from './LoginButton/page';
+
 export default function Home() {
   return (
     <div className={styles.container}>
           {/* Header with Login Button */}
           <header className={styles.header}>
         <div className={styles.loginButtonContainer}>
-          <Link href="/loginButton">
+        <Link href="/LoginButton"> {/* Updated to point to the signup page */}
             <button className={styles.loginButton}>Login</button>
           </Link>
         </div>

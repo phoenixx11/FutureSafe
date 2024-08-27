@@ -1,8 +1,11 @@
 'use client'; 
 import React, { useState } from 'react';
 import styles from './components/styles.module.css';
+import { createTimeCapsuleAttestation, unlockTimeCapsuleAttestation } from '../../utils/attestation';
+import { useTimeCapsuleHook } from '../../hooks/useTimeCapsuleHook';
 
 const CreateCapsule: React.FC = () => {
+  const { isAuthorized } = useTimeCapsuleHook();
   const [step, setStep] = useState(1);
 
   // State for form data
@@ -21,14 +24,25 @@ const CreateCapsule: React.FC = () => {
   };
 
   // Function to handle form submission
-  const handleSubmit = () => {
-    // Process form data here
-    console.log({
-      content,
-      unlockDate,
-      recipients,
-      customization,
-    });
+  const handleSubmit = async () => {
+    try {
+      // Prepare the capsule data
+      const capsuleData = {
+        data: content.map(file => file.name).join(', '), 
+        unlockDate: new Date(unlockDate),
+        authorizedUsers: recipients,
+        paymentRequired: false,
+      };
+
+      // Create an attestation for the time capsule
+      const attestationId = await createTimeCapsuleAttestation(capsuleData);
+      console.log('Time Capsule Created with Attestation ID:', attestationId);
+
+      alert('Time Capsule created successfully! Attestation ID: ' + attestationId);
+    } catch (error) {
+      console.error('Error creating time capsule:', error);
+      alert('Failed to create time capsule. Please try again.');
+    }
   };
 
   // Step navigation
