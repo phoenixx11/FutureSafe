@@ -2,7 +2,7 @@ import { SpMode, SignProtocolClient } from '@ethsign/sp-sdk';
 import { ethers } from 'ethers';
 
 const privateKey = process.env.PRIVATE_KEY;
-const hookContractAddress = process.env.HOOK_CONTRACT_ADDRESS; // Ensure this is set in your .env file
+const hookContractAddress = process.env.HOOK_CONTRACT_ADDRESS; 
 
 if (!privateKey || !hookContractAddress) {
   throw new Error('Please set the PRIVATE_KEY and HOOK_CONTRACT_ADDRESS environment variables.');
