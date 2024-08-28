@@ -22,7 +22,7 @@ export const createTimeCapsuleSchema = async () => {
         { name: 'unlockDate', type: 'date', description: 'Date to unlock the capsule' },
         { name: 'authorizedUsers', type: 'address[]', description: 'Users authorized to unlock the capsule' },
       ],
-      hookAddress: '0xYourHookContractAddressHere', // Reference to your deployed WhitelistSchemaHook contract
+      hookAddress: '0x7F513028Fc64a758CD96216d320b3dAa50791361', 
     });
 
     console.log('Schema created with Hook:', timeCapsuleSchema);
