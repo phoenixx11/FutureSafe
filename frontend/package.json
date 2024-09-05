@@ -22,16 +22,20 @@
     "axios": "^1.7.5",
     "dotenv": "^16.4.5",
     "ethers": "^6.13.2",
+    "lit-js-sdk": "^1.1.250",
     "next": "14.2.6",
+    "nodemailer": "^6.9.14",
     "react": "^18",
     "react-confetti": "^6.1.0",
     "react-dom": "^18",
-    "viem": "^2.20.1"
+    "viem": "^2.21.0"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.15",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
+    "pino-pretty": "^11.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }

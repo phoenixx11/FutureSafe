@@ -1,35 +1,47 @@
-import { SpMode, SignProtocolClient } from '@ethsign/sp-sdk';
+import { SignProtocolClient, SpMode, EvmChains } from '@ethsign/sp-sdk';
 import { ethers } from 'ethers';
 
-const privateKey = process.env.PRIVATE_KEY;
+// Check if window.ethereum is available
+const isBrowser = typeof window !== 'undefined' && typeof window.ethereum !== 'undefined';
 
-if (!privateKey) {
-  throw new Error('Please set the PRIVATE_KEY environment variable.');
+let client: SignProtocolClient;
+
+if (isBrowser) {
+  // Use window.ethereum if running in a browser environment
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  client = new SignProtocolClient(SpMode.OnChain, {
+    chain: EvmChains.baseSepolia, // You can adjust the chain as needed
+    provider: provider, // Use the provider from window.ethereum
+  });
+} else {
+  throw new Error('No Ethereum provider found. Make sure to run this in a browser with MetaMask or similar wallet.');
 }
-
-const client = new SignProtocolClient(SpMode.OnChain, {
-  provider: new ethers.providers.JsonRpcProvider(process.env.RPC_URL),
-  signer: new ethers.Wallet(privateKey),
-});
 
 export const createTimeCapsuleSchema = async () => {
   try {
-    const timeCapsuleSchema = await client.createSchema({
+    // Create a schema with the required fields and a whitelist hook contract
+    const response = await client.createSchema({
       name: 'Time Capsule with Whitelist Hook',
       description: 'Store data to be unlocked at a future date with whitelist control',
-      attributes: [
+      data: [
         { name: 'data', type: 'string', description: 'Data to be stored' },
-        { name: 'unlockDate', type: 'date', description: 'Date to unlock the capsule' },
+        { name: 'unlockDate', type: 'string', description: 'Date to unlock the capsule' }, // Use 'string' for dates
         { name: 'authorizedUsers', type: 'address[]', description: 'Users authorized to unlock the capsule' },
       ],
-      hookAddress: '0x7F513028Fc64a758CD96216d320b3dAa50791361', 
+      hookAddress: '', // Whitelist hook address
     });
 
-    console.log('Schema created with Hook:', timeCapsuleSchema);
-    return timeCapsuleSchema;
+    // Log and return the schema ID
+    console.log('Schema created with Hook:', response);
+    const schemaId = response.schemaId;
+    console.log('Schema ID:', schemaId);
+    return schemaId;
   } catch (error) {
     console.error('Failed to create schema with hook:', error);
   }
 };
 
-createTimeCapsuleSchema().catch(console.error);
+// Execute if running in the browser
+if (isBrowser) {
+  createTimeCapsuleSchema().catch(console.error);
+}

@@ -1,61 +1,39 @@
 
 'use client';
-
 import React, { useState } from 'react';
-import CapsuleCard from './components/CapsuleCard';
-import CapsuleDetails from './components/CapsuleDetails';
-import styles from './components/styles.module.css';
 
-// Mock data for capsules
-const mockCapsules = [
-  { id: 1, name: 'Capsule 1', unlockDate: '2025-12-31', creator: 'User A', blockchain: 'Ethereum' },
-  { id: 2, name: 'Capsule 2', unlockDate: '2026-06-30', creator: 'User B', blockchain: 'Polygon' },
-  // Add more mock data as needed
-];
+const ExploreCapsulesPage = () => {
+  const [attestationId, setAttestationId] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState('');
 
-const ExploreCapsules: React.FC = () => {
-  const [selectedCapsule, setSelectedCapsule] = useState<any>(null);
-  const [search, setSearch] = useState<string>('');
-  const [filter, setFilter] = useState<string>('All');
+  const handleUnlock = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/decryptCapsule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ attestationId, paymentStatus: 'completed' }),
+      });
 
-  // Filter and search logic
-  const filteredCapsules = mockCapsules.filter(capsule =>
-    (filter === 'All' || capsule.blockchain === filter) &&
-    (capsule.name.toLowerCase().includes(search.toLowerCase()) || capsule.creator.toLowerCase().includes(search.toLowerCase()))
-  );
+      if (response.ok) {
+        const result = await response.json();
+        setData(result.encryptedData);
+      } else {
+        setData('Failed to unlock capsule.');
+      }
+    } catch (error) {
+      console.error('Error unlocking capsule:', error);
+      setData('An error occurred.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className={styles.container}>
-      <h1>Explore Time Capsules</h1>
-      <div className={styles.searchFilter}>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <select onChange={(e) => setFilter(e.target.value)}>
-          <option value="All">All Blockchains</option>
-          <option value="Ethereum">Ethereum</option>
-          <option value="Polygon">Polygon</option>
-          {/* Add more options as needed */}
-        </select>
-      </div>
-      <div className={styles.gallery}>
-        {filteredCapsules.map(capsule => (
-          <CapsuleCard
-            key={capsule.id}
-            capsule={capsule}
-            onClick={() => setSelectedCapsule(capsule)}
-          />
-        ))}
-      </div>
-      {selectedCapsule && (
-        <CapsuleDetails capsule={selectedCapsule} onClose={() => setSelectedCapsule(null)} />
-      )}
-    </div>
-  );
-};
+    <div>
+      <h1>Explore Capsules</h1> 
+      <input type="text" placeholder="Enter Attestation ID..." value={attestationId} onChange={(e) => setAttestationId(e.target.value)} /> 
+      <button onClick={handleUnlock} disabled={loading}> {loading ? 'Unlocking...' : 'Unlock Capsule'} </button> <p>{data}</p> </div> ); };
 
-export default ExploreCapsules;
-
+export default ExploreCapsulesPage;

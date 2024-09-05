@@ -1,6 +1,6 @@
 import styles from './styles/Home.module.css';
 import Link from 'next/link';
-//import LoginButton from './LoginButton/page';
+import LoginButton from './LoginButton/page';
 
 export default function Home() {
   return (

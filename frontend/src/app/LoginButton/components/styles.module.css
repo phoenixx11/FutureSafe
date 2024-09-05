@@ -1,0 +1,42 @@
+/* src/app/homepage/styles.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e2a78, #1b1b3a); /* Dark blue to dark purple gradient */
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    font-family: 'Roboto', sans-serif; /* Use a modern sans-serif font */
+    color: #ffffff; /* White color for contrast */
+  }
+  
+  .loginButton {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1e2a78; /* Button text color matching background gradient */
+    background-color: #ffffff; /* White button */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .loginButton:hover {
+    background-color: #1e2a78; /* Dark blue background on hover */
+    color: #ffffff; /* White text on hover */
+  }
+  
+  .loginButton:disabled {
+    background-color: #cccccc; /* Greyed out button when loading */
+    cursor: not-allowed; /* Disabled cursor */
+  }
+  

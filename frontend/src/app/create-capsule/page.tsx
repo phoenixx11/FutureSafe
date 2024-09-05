@@ -1,45 +1,80 @@
-'use client'; 
+'use client';
+
 import React, { useState } from 'react';
 import styles from './components/styles.module.css';
-import { createTimeCapsuleAttestation } from '../../services/signProtocol'; 
+import { generateAttestationOnChain } from '../../services/signProtocol'; 
+import { encryptAndCreateAttestation } from '../backend/services/encryptionService'; 
+import { triggerPayment } from '../backend/services/paymentService'; 
+import { registerSchemaOnChain } from '../backend/services/schemaService'; 
+import { storeDataOnArweave } from '../backend/arweaveService'; 
 
 const CreateCapsule: React.FC = () => {
   const [step, setStep] = useState(1);
-
-  // State for form data
   const [content, setContent] = useState<File[]>([]);
   const [unlockDate, setUnlockDate] = useState<string>('');
   const [recipients, setRecipients] = useState<string[]>([]);
   const [customization, setCustomization] = useState({
     holographicMessage: '',
     memoryEnhancements: '',
-    visualTheme: ''
+    visualTheme: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [attestationId, setAttestationId] = useState<string | null>(null);
 
   // Function to handle file uploads
   const handleFileUpload = (files: FileList) => {
     setContent([...content, ...Array.from(files)]);
   };
 
-  // Function to handle form submission
-  const handleSubmit = async () => {
+  // Function to handle payment, schema registration, and attestation
+  const handleFinalSubmit = async () => {
+    setLoading(true);
     try {
-      // Prepare the capsule data
+      // Step 1: Register Schema on-chain and get the Schema ID
+      const schemaId = await registerSchemaOnChain();
+      console.log('Schema ID:', schemaId);
+
+      // Step 2: Trigger Payment before Capsule Creation
+      const paymentSuccess = await triggerPayment();
+      if (!paymentSuccess) {
+        alert('Payment failed. Please try again.');
+        setLoading(false);
+        return;
+      }
+
+      // Step 3: Encrypt and Store Data on Arweave
+      const encryptedFiles = await Promise.all(
+        content.map(async (file) => {
+          const fileData = await file.arrayBuffer();
+          const encryptedData = await encryptAndCreateAttestation(
+            new Uint8Array(fileData)
+          ); // Encrypt file data
+          return await storeDataOnArweave(encryptedData); // Store encrypted data on Arweave
+        })
+      );
+
+      // Step 4: Create Capsule Data
       const capsuleData = {
-        data: content.map(file => file.name).join(', '), 
+        data: encryptedFiles, // Array of Arweave transaction IDs
         unlockDate: new Date(unlockDate),
         authorizedUsers: recipients,
-        paymentRequired: false,
+        customization,
       };
 
-      // Create an attestation for the time capsule
-      const attestationId = await createTimeCapsuleAttestation(capsuleData);
-      console.log('Time Capsule Created with Attestation ID:', attestationId);
+      // Step 5: Create Attestation on-chain
+      const newAttestationId = await generateAttestationOnChain(
+        schemaId,
+        capsuleData
+      );
+      console.log('Attestation ID:', newAttestationId);
+      setAttestationId(newAttestationId);
 
-      alert('Time Capsule created successfully! Attestation ID: ' + attestationId);
+      alert(`Time Capsule created successfully! Attestation ID: ${newAttestationId}`);
     } catch (error) {
       console.error('Error creating time capsule:', error);
       alert('Failed to create time capsule. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -169,7 +204,7 @@ const CreateCapsule: React.FC = () => {
               <button onClick={prevStep} className={styles.prevButton}>
                 Previous: Add Recipients
               </button>
-              <button onClick={handleSubmit} className={styles.submitButton}>
+              <button onClick={nextStep} className={styles.nextButton}>
                 Review & Encrypt
               </button>
             </div>
@@ -180,7 +215,6 @@ const CreateCapsule: React.FC = () => {
           <div className={styles.step}>
             <h2>Preview & Encrypt</h2>
             <div className={styles.preview}>
-              {/* Render a preview of the time capsule here */}
               <p>Content: {content.length} files uploaded</p>
               <p>Unlock Date: {unlockDate}</p>
               <p>Recipients: {recipients.join(', ')}</p>
@@ -188,8 +222,8 @@ const CreateCapsule: React.FC = () => {
               <p>AI Enhancements: {customization.memoryEnhancements}</p>
               <p>Visual Theme: {customization.visualTheme}</p>
             </div>
-            <button onClick={() => alert('Encrypted!')} className={styles.encryptButton}>
-              Encrypt & Save Capsule
+            <button onClick={handleFinalSubmit} className={styles.encryptButton} disabled={loading}>
+              {loading ? 'Processing...' : 'Encrypt & Save Capsule'}
             </button>
           </div>
         )}

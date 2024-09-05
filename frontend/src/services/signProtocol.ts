@@ -1,42 +1,40 @@
-import axios from 'axios';
-import { encryptData } from './litActions'; 
-// Define the API endpoint
-const API_ENDPOINT = 'https://testnet-rpc.sign.global/api';
+import { SignProtocolClient, SpMode, EvmChains } from '@ethsign/sp-sdk'; // Import the Sign Protocol SDK and EvmChains
+import { privateKeyToAccount } from 'viem/accounts'; // Import utility to convert private key to account
+ 
 
-// Function to create a new attestation
-export const createTimeCapsuleAttestation = async (capsuleData: any, publicKey: string) => {
+
+// Initialize the Sign Protocol Client in on-chain mode
+const privateKey = '0xbd11757a1dda972b7c67f1b1573a0a403f7b1ca8f119ffbf1d96aa7885b4910f'; // Load private key from environment variables
+
+if (!privateKey) {
+  throw new Error("Private key is undefined. Please set the PRIVATE_KEY environment variable.");
+}
+
+export const client = new SignProtocolClient(SpMode.OnChain, {
+  chain: EvmChains.sepolia, // Specify the target blockchain network (Sepolia in this case)
+  account: privateKeyToAccount(privateKey),
+});
+
+// Function to generate attestation on-chain
+export const generateAttestationOnChain = async (schemaId: string, data: any) => {
   try {
-    // Make a POST request to create an attestation
-    const encryptedData = await encryptData(JSON.stringify(capsuleData), publicKey);
-    const response = await axios.post(`${API_ENDPOINT}/attestations`, {
-      schemaId: 'onchain_evm_11155111_0x7e', // Adjust schemaId as needed
-      data: encryptedData,
+    // Define the attestation data structure based on your schema and data
+    const attestation = {
+      schemaId,
+      data,
+    };
+
+    // Call the createAttestation function to create the attestation on-chain
+    const attestationResult = await client.createAttestation(attestation, {
+      getTxHash: (txHash) => {
+        console.log('Attestation transaction hash:', txHash); // Log the transaction hash
+      },
     });
 
-    // Extract and return the attestation ID from the response
-    const attestationId = response.data.data.id;
-    console.log('Generated Attestation ID:', attestationId);
-
-    return attestationId;
+    console.log('Generated Attestation ID:', attestationResult.attestationId); // Log the attestation ID
+    return attestationResult.attestationId;
   } catch (error) {
-    console.error('Error creating attestation:', error);
-    throw error;
-  }
-};
-
-// Function to retrieve attestation data by ID
-export const getAttestationById = async (attestationId: string) => {
-  try {
-    // Make a GET request to retrieve attestation details
-    const response = await axios.get(`${API_ENDPOINT}/index/attestations/${attestationId}`);
-
-    // Extract and return attestation data
-    const attestationData = response.data.data;
-    console.log('Attestation Data:', attestationData);
-
-    return attestationData;
-  } catch (error) {
-    console.error('Error retrieving attestation data:', error);
-    throw error;
+    console.error('Failed to create attestation on-chain:', error);
+    throw new Error('Attestation creation failed');
   }
 };
