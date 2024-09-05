@@ -6,7 +6,7 @@ import { generateAttestationOnChain } from '../../services/signProtocol';
 import { encryptAndCreateAttestation } from '../backend/services/encryptionService'; 
 import { triggerPayment } from '../backend/services/paymentService'; 
 import { registerSchemaOnChain } from '../backend/services/schemaService'; 
-import { storeDataOnArweave } from '../backend/arweaveService'; 
+import { storeDataOnArweave } from '../backend/services/arweaveService'; 
 
 const CreateCapsule: React.FC = () => {
   const [step, setStep] = useState(1);

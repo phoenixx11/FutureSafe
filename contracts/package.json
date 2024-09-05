@@ -2,7 +2,8 @@
   "name": "hardhat-project",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "hardhat": "^2.22.9"
+    "ethers": "^6.13.2",
+    "hardhat": "^2.22.10"
   },
   "description": "This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.",
   "version": "1.0.0",
@@ -11,6 +12,7 @@
     "test": "test"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-ignition": "^0.15.5",
     "abbrev": "^1.0.9",
     "acorn": "^8.12.1",
     "acorn-walk": "^8.3.3",
@@ -118,7 +120,6 @@
     "ethereum-cryptography": "^0.1.3",
     "ethereumjs-abi": "^0.6.8",
     "ethereumjs-util": "^7.1.5",
-    "ethers": "^6.13.2",
     "ethjs-unit": "^0.1.6",
     "ethjs-util": "^0.1.6",
     "evp_bytestokey": "^1.0.3",

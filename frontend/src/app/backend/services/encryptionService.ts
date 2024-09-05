@@ -1,5 +1,5 @@
 import LitJsSdk from 'lit-js-sdk'; // Import Lit Protocol SDK
-import { storeDataOnArweave } from '../arweaveService'; // Import Arweave storage function
+import { storeDataOnArweave } from '../services/arweaveService'; // Import Arweave storage function
 import { generateAttestationOnChain } from '../../../services/signProtocol'; // Import attestation service
 
 // Initialize Lit Protocol client
