@@ -1,11 +1,10 @@
-import { generateAttestationOnChain } from '../../services/signProtocol';
+import { generateAttestationOnChain } from '../../../services/signProtocol';
 
 export const handleAttestation = async (schemaId: string, arweaveTransactionId: string) => {
   try {
     // Define the data to be attested
     const dataToAttest = {
       arweaveTransactionId,
-      // Include any additional data that is part of the attestation
     };
 
     // Generate the attestation on-chain

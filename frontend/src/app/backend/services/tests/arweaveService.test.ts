@@ -5,6 +5,6 @@ describe('Arweave Service', () => {
     const info = await arweave.network.getInfo();
     console.log(info);
     expect(info).toBeDefined();
-  });
+  }, 30000); // Sets the timeout to 30 seconds  
 });
   

@@ -1,65 +1,79 @@
-/* src/app/explore-capsules/styles.module.css */
+/* create-capsule/components/styles.module.css */
 
-/* General Container Style */
-.container {
+/* General Page Styles */
+.explorePage {
+  background: linear-gradient(135deg, #0d0d2b, #1a1a40);
+  color: #e0e0e0;
   padding: 40px;
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  color: #e6e6e6;
-  font-family: 'Inter', sans-serif;
-}
-
-/* Search and Filter Section */
-.searchFilter {
+  font-family: 'Inter', 'Roboto', 'Orbitron', sans-serif;
+  min-height: 100vh;
   display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
+  flex-direction: column;
+  align-items: center;
 }
 
-.searchFilter input,
-.searchFilter select {
-  background: #2a2a44;
-  border: 1px solid #333;
+/* Headings */
+.heading {
+  font-size: 2.5rem;
+  color: #00d1ff;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #00d1ff;
+}
+
+/* Search Bar */
+.searchBar {
+  display: flex;
+  margin-bottom: 20px;
+  width: 80%;
+  max-width: 600px;
+}
+
+.searchInput {
+  flex: 1;
   padding: 10px;
+  border: none;
   border-radius: 5px;
-  color: #e6e6e6;
-  font-size: 14px;
+  margin-right: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
-.searchFilter input::placeholder {
-  color: #aaa;
-}
-
-/* Gallery View */
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 25px;
-  justify-content: center;
-}
-
-/* Capsule Card Style */
-.card {
-  background: rgba(50, 50, 80, 0.7);
-  padding: 20px;
-  border-radius: 10px;
+.searchButton {
+  padding: 10px 20px;
+  background-color: #00d1ff;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s;
 }
 
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+.searchButton:hover {
+  background-color: #00e6ff;
 }
 
-.card h2 {
-  color: #7fdbff;
-  margin-bottom: 10px;
+/* 3D Gallery View */
+.galleryContainer {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  width: 100%;
+  padding: 20px;
 }
 
-.card p {
-  color: #cfcfcf;
-  margin: 5px 0;
+/* Capsule Card */
+.capsuleCard {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+
+.capsuleCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 209, 255, 0.3);
 }
 
 /* Capsule Details Overlay */
@@ -69,98 +83,42 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.details {
-  background: #1e1e3f;
+.detailsContent {
+  background: rgba(255, 255, 255, 0.1);
   padding: 30px;
-  border-radius: 12px;
-  color: #e6e6e6;
-  width: 90%;
+  border-radius: 15px;
+  width: 80%;
   max-width: 600px;
-  position: relative;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #fff;
 }
 
-.details h2 {
-  color: #00ffff;
+.detailsTitle {
   margin-bottom: 20px;
-}
-
-.details p {
-  margin: 10px 0;
-  font-size: 16px;
+  font-size: 1.8rem;
 }
 
 .closeButton {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: #ff4d4d;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #ff0040;
   border: none;
-  color: #fff;
-  padding: 8px 12px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background 0.3s ease;
+  transition: background 0.3s;
 }
 
 .closeButton:hover {
-  background: #ff6666;
+  background: #ff3366;
 }
 
-/* unlock part*/
-.detailsOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
 
-.details {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
 
-.closeButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
 
-.unlockButton {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
 
-.paymentWindow {
-  background: #e0f7fa;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 20px;
-}

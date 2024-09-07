@@ -1,39 +1,52 @@
 
-'use client';
+// create-capsule/page.tsx
+"use client";
 import React, { useState } from 'react';
+import styles from './components/styles.module.css';
+import CapsuleGallery from './components/CapsuleGallery';
+import CapsuleDetails from './components/CapsuleDetails';
+import SearchBar from './components/SearchBar';
 
-const ExploreCapsulesPage = () => {
-  const [attestationId, setAttestationId] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState('');
+interface Capsule {
+  id: string;
+  name: string;
+  unlockDate: string;
+  creator: string;
+  blockchain: string;
+  contents: string;
+  ownership: string[];
+}
 
-  const handleUnlock = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/decryptCapsule', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ attestationId, paymentStatus: 'completed' }),
-      });
+const dummyCapsules: Capsule[] = [
+  { id: '1', name: 'Capsule Alpha', unlockDate: '2024-12-01', creator: 'Alice', blockchain: 'Ethereum', contents: 'Historical data', ownership: ['Alice'] },
+  { id: '2', name: 'Capsule Beta', unlockDate: '2025-01-15', creator: 'Bob', blockchain: 'Solana', contents: 'Confidential docs', ownership: ['Bob'] },
+  // More capsules...
+];
 
-      if (response.ok) {
-        const result = await response.json();
-        setData(result.encryptedData);
-      } else {
-        setData('Failed to unlock capsule.');
-      }
-    } catch (error) {
-      console.error('Error unlocking capsule:', error);
-      setData('An error occurred.');
-    } finally {
-      setLoading(false);
-    }
+const ExploreCapsulesPage: React.FC = () => {
+  const [selectedCapsule, setSelectedCapsule] = useState<Capsule | null>(null);
+
+  const handleCapsuleClick = (capsule: Capsule) => {
+    setSelectedCapsule(capsule);
+  };
+
+  const closeOverlay = () => {
+    setSelectedCapsule(null);
+  };
+
+  const handleSearch = (filters: { query: string }) => {
+    // Logic for filtering capsules based on search criteria
+    alert(`Searching for: ${filters.query}`);
   };
 
   return (
-    <div>
-      <h1>Explore Capsules</h1> 
-      <input type="text" placeholder="Enter Attestation ID..." value={attestationId} onChange={(e) => setAttestationId(e.target.value)} /> 
-      <button onClick={handleUnlock} disabled={loading}> {loading ? 'Unlocking...' : 'Unlock Capsule'} </button> <p>{data}</p> </div> ); };
+    <div className={styles.explorePage}>
+      <h1 className={styles.heading}>Explore Capsules</h1>
+      <SearchBar onSearch={handleSearch} />
+      <CapsuleGallery capsules={dummyCapsules} onCapsuleClick={handleCapsuleClick} />
+      {selectedCapsule && <CapsuleDetails capsule={selectedCapsule} onClose={closeOverlay} />}
+    </div>
+  );
+};
 
 export default ExploreCapsulesPage;

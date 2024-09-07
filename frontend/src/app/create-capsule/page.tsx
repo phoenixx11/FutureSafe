@@ -2,11 +2,14 @@
 
 import React, { useState } from 'react';
 import styles from './components/styles.module.css';
-import { generateAttestationOnChain } from '../../services/signProtocol'; 
-import { encryptAndCreateAttestation } from '../backend/services/encryptionService'; 
+import { createAttestation } from '../../services/signProtocol'; 
+//import { encryptAndCreateAttestation } from '../backend/services/encryptionService'; 
 import { triggerPayment } from '../backend/services/paymentService'; 
-import { registerSchemaOnChain } from '../backend/services/schemaService'; 
+import { client, registerSchemaOnChain } from '../backend/services/schemaService'; 
 import { storeDataOnArweave } from '../backend/services/arweaveService'; 
+import * as LitJsSdk from "@lit-protocol/lit-node-client";
+import { Lit } from '../backend/services/encryptionService';
+import { LitNetwork } from "@lit-protocol/constants";
 
 const CreateCapsule: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -27,54 +30,64 @@ const CreateCapsule: React.FC = () => {
   };
 
   // Function to handle payment, schema registration, and attestation
-  const handleFinalSubmit = async () => {
-    setLoading(true);
-    try {
-      // Step 1: Register Schema on-chain and get the Schema ID
-      const schemaId = await registerSchemaOnChain();
-      console.log('Schema ID:', schemaId);
+const handleFinalSubmit = async () => {
+  setLoading(true);
+  try {
+    // Step 1: Register Schema on-chain and get the Schema ID
+    const schemaId = await registerSchemaOnChain();
+    console.log('Schema ID:', schemaId);
 
-      // Step 2: Trigger Payment before Capsule Creation
-      const paymentSuccess = await triggerPayment();
-      if (!paymentSuccess) {
-        alert('Payment failed. Please try again.');
-        setLoading(false);
-        return;
-      }
-
-      // Step 3: Encrypt and Store Data on Arweave
-      const encryptedFiles = await Promise.all(
-        content.map(async (file) => {
-          const fileData = await file.arrayBuffer();
-          const encryptedData = await encryptAndCreateAttestation(
-            new Uint8Array(fileData)
-          ); // Encrypt file data
-          return await storeDataOnArweave(encryptedData); // Store encrypted data on Arweave
-        })
-      );
-
-      // Step 4: Create Capsule Data
-      const capsuleData = {
-        data: encryptedFiles, // Array of Arweave transaction IDs
-        unlockDate: new Date(unlockDate),
-        authorizedUsers: recipients,
-        customization,
-      };
-
-      // Step 5: Create Attestation on-chain
-      const newAttestationId = await generateAttestationOnChain(
-        schemaId,
-        capsuleData
-      );
-      console.log('Attestation ID:', newAttestationId);
-      setAttestationId(newAttestationId);
-
-      alert(`Time Capsule created successfully! Attestation ID: ${newAttestationId}`);
-    } catch (error) {
-      console.error('Error creating time capsule:', error);
-      alert('Failed to create time capsule. Please try again.');
-    } finally {
+    // Step 2: Trigger Payment before Capsule Creation
+    const paymentSuccess = await triggerPayment('0.01');
+    if (!paymentSuccess) {
+      alert('Payment failed. Please try again.');
       setLoading(false);
+      return;
+    }
+
+    // Step 3: Create Capsule Data
+    const capsuleData = {
+      data: 'Your file data or other relevant content', // Example data
+      unlockDate: new Date(unlockDate),
+      authorizedUsers: recipients,
+      paymentRequired: false, // Assuming no payment is required
+      holographicMessage: 'Your holographic message',
+      memoryEnhancements: 'Memory enhancements',
+      visualTheme: 'Visual theme',
+    };
+
+    // Step 4: Encrypt and Store Data on Arweave
+    const client = new LitJsSdk.LitNodeClient({
+      litNetwork: LitNetwork.Datil,
+    });
+    
+     const encryptAndStoreOnArweave = async (capsuleData: any) => {
+      try {
+        // Connect to Lit Protocol network
+        await client.connect();
+    
+        // Encrypt capsule data using Lit JS SDK
+        const { ciphertext, dataToEncryptHash } = await LitNodeClient.encrypt(capsuleData);
+    
+        // Store encrypted data on Arweave
+        const arweaveTransactionId = await storeDataOnArweave(ciphertext);
+        console.log('Encrypted data stored on Arweave with Transaction ID:', arweaveTransactionId);
+    
+        // Handle dataToEncryptHash as needed (e.g., store it for verification)
+        // console.log('Data to Encrypt Hash:', dataToEncryptHash);
+    
+        return arweaveTransactionId;
+      } catch (error) {
+        console.error('Error encrypting and storing data:', error);
+        throw error; // Re-throw the error to handle it in the calling function
+      }
+    };
+
+    // Step 5: Create Attestation on-chain
+      await createAttestation(schemaId, capsuleData);
+      console.log("Attestation created successfully");
+    } catch (error) {
+      console.error("Error creating attestation:", error);
     }
   };
 

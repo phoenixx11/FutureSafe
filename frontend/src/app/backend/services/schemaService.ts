@@ -10,7 +10,7 @@ if (!privateKey) {
 
 // Initialize the Sign Protocol Client using EvmChains.Sepolia
 export const client = new SignProtocolClient(SpMode.OnChain, {
-  chain: EvmChains.sepolia, // Use the enum directly
+  chain: EvmChains.sepolia, 
   account: privateKeyToAccount(privateKey),
 });
 
@@ -19,7 +19,7 @@ const schema: Schema = {
   name: "CreateCapsule",
   data: [
     { name: "data", type: "string"},
-    { name: "unlockDate", type: "string"}, // Assuming 'date' isn't a valid type, use 'string'
+    { name: "unlockDate", type: "string"}, 
     { name: "authorizedUsers", type: "address[]"},
   ],
 };
