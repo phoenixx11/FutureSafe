@@ -2,14 +2,14 @@
 "use client";
 import React, { useState } from 'react';
 import styles from '../components/styles.module.css';
-//import { queryAttestationList } from '../../backend/services/attestationService';
-import { decryptDataWithLitAction } from '../../../services/litActions';
+import { queryAttestationList } from '../../backend/services/attestationService';
+import { decryptDataWithLitAction } from '../../../services/litprotocol';
 
 interface SearchBarProps {
   onSearch: (filters: { query: string }) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [query, setQuery] = useState('');
   const [attestations, setAttestations] = useState([]); 
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +43,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         const decryptedData = await decryptDataWithLitAction(
           accessControlConditions,
           ciphertext,
-          dataToEncryptHash
+          dataToEncryptHash,
+          signer
         );
 
         console.log('Decrypted data:', decryptedData);

@@ -10,6 +10,8 @@ import { storeDataOnArweave } from '../backend/services/arweaveService';
 import * as LitJsSdk from "@lit-protocol/lit-node-client";
 import { Lit } from '../backend/services/encryptionService';
 import { LitNetwork } from "@lit-protocol/constants";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateCapsule: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -17,7 +19,7 @@ const CreateCapsule: React.FC = () => {
   const [unlockDate, setUnlockDate] = useState<string>('');
   const [recipients, setRecipients] = useState<string[]>([]);
   const [customization, setCustomization] = useState({
-    holographicMessage: '',
+    personalizedMessage: '',
     memoryEnhancements: '',
     visualTheme: '',
   });
@@ -49,7 +51,7 @@ const handleFinalSubmit = async () => {
       data: 'string', // Example data
       unlockDate: 1234567890,
       authorizedUsers: ["address1", "address2"],
-      holographicMessage: 'Hello, world!',
+      personalizedMessage: 'Hello, world!',
       memoryEnhancements: 'Enhanced memory',
       visualTheme: 'Dark theme',
       indexingValue: "10000000000",
@@ -183,19 +185,19 @@ const handleFinalSubmit = async () => {
           <div className={styles.step}>
             <h2>Customize Capsule</h2>
             <textarea
-              placeholder="Holographic Message"
-              value={customization.holographicMessage}
+              placeholder="Personalized Message"
+              value={customization.personalizedMessage}
               onChange={(e) =>
                 setCustomization({
                   ...customization,
-                  holographicMessage: e.target.value,
+                  personalizedMessage: e.target.value,
                 })
               }
               className={styles.textarea}
             />
             <input
               type="text"
-              placeholder="AI-Powered Memory Enhancements"
+              placeholder=" Memory Enhancements"
               value={customization.memoryEnhancements}
               onChange={(e) =>
                 setCustomization({
@@ -235,13 +237,17 @@ const handleFinalSubmit = async () => {
               <p>Content: {content.length} files uploaded</p>
               <p>Unlock Date: {unlockDate}</p>
               <p>Recipients: {recipients.join(', ')}</p>
-              <p>Holographic Message: {customization.holographicMessage}</p>
-              <p>AI Enhancements: {customization.memoryEnhancements}</p>
+              <p>Personalized Message: {customization.personalizedMessage}</p>
+              <p>Memory Enhancements: {customization.memoryEnhancements}</p>
               <p>Visual Theme: {customization.visualTheme}</p>
             </div>
             <button onClick={handleFinalSubmit} className={styles.encryptButton} disabled={loading}>
               {loading ? 'Processing...' : 'Encrypt & Save Capsule'}
             </button>
+            console.log("Submitting attestation with schemaId:", schemaId);
+            console.log("Capsule data:", capsuleData);
+            console.log("Attestation created successfully");
+            <ToastContainer />
           </div>
         )}
       </div>

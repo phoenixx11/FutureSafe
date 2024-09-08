@@ -21,7 +21,7 @@ const schema: Schema = {
     { name: "data", type: "string"},
     { name: "unlockDate", type: "string"}, 
     { name: "authorizedUsers", type: "string[]"},
-    { name: "holographicMessage", type: "string"},
+    { name: "personalizedMessage", type: "string"},
     { name: "memoryEnhancements", type: "string"}, 
     { name: "visualTheme", type: "string"},
     { name: "indexingValue", type: "string"},

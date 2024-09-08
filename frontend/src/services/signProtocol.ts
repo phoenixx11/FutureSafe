@@ -9,7 +9,7 @@ type Attestation = {
     data: string;                  // Correct data type
     unlockDate: number;            // Date should be a string
     authorizedUsers: string[];     // Address array as string array
-    holographicMessage: string;
+    personalizedMessage: string;
     memoryEnhancements: string;
     visualTheme: string;
     indexingValue: string; 
@@ -22,7 +22,7 @@ const schema: Schema = {
     { name: "data", type: "string"},
     { name: "unlockDate", type: "number"}, 
     { name: "authorizedUsers", type: "string[]"},
-    { name: "holographicMessage", type: "string"},
+    { name: "personalizedMessage", type: "string"},
     { name: "memoryEnhancements", type: "string"}, 
     { name: "visualTheme", type: "string"},
     { name: "indexingValue", type: "string"},
@@ -46,7 +46,7 @@ export const createAttestation = async (schemaId: string, data: { data: string; 
         data: "string",
         unlockDate: 1234567890, // Example timestamp
         authorizedUsers: ["address1", "address2"] , // Array of addresses
-        holographicMessage: "Hello, world!",
+        personalizedMessage: "Hello, world!",
         memoryEnhancements: "Enhanced memory",
         visualTheme: "Dark theme",
         indexingValue: "10000000000", // Set a unique indexing value

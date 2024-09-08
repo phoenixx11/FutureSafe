@@ -18,7 +18,7 @@ interface CapsuleGalleryProps {
   onCapsuleClick: (capsule: Capsule) => void;
 }
 
-const CapsuleGallery: React.FC<CapsuleGalleryProps> = ({ capsules, onCapsuleClick }) => {
+export const CapsuleGallery: React.FC<CapsuleGalleryProps> = ({ capsules, onCapsuleClick }) => {
   return (
     <div className={styles.galleryContainer}>
       {capsules.map((capsule) => (

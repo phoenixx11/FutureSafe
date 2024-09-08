@@ -17,7 +17,7 @@ interface CapsuleCardProps {
   onClick: (capsule: Capsule) => void;
 }
 
-const CapsuleCard: React.FC<CapsuleCardProps> = ({ capsule, onClick }) => {
+export const CapsuleCard: React.FC<CapsuleCardProps> = ({ capsule, onClick }) => {
   return (
     <div
       className={styles.capsuleCard}

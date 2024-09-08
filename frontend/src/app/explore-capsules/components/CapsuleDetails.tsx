@@ -18,7 +18,7 @@ interface CapsuleDetailsProps {
   onClose: () => void;
 }
 
-const CapsuleDetails: React.FC<CapsuleDetailsProps> = ({ capsule, onClose }) => {
+export const CapsuleDetails: React.FC<CapsuleDetailsProps> = ({ capsule, onClose }) => {
   return (
     <div className={styles.detailsOverlay}>
       <div className={styles.detailsContent}>

@@ -10,7 +10,7 @@ export class Lit {
     data: '';
     unlockDate: '';
     authorizedUsers: '';
-    holographicMessage?: '';
+    personalizedMessage?: '';
     memoryEnhancements?: '';
     visualTheme?: '';
   }, accessControlConditions: any) {
@@ -36,3 +36,4 @@ export class Lit {
     };
   }
 }
+
