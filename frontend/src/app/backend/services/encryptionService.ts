@@ -7,16 +7,19 @@ export class Lit {
   }
 
   async encryptToJson(data: {
-    data: string;
-    unlockDate: Date;
-    authorizedUsers: string[];
-    paymentRequired: boolean;
-    holographicMessage?: string;
-    memoryEnhancements?: string;
-    visualTheme?: string;
+    data: '';
+    unlockDate: '';
+    authorizedUsers: '';
+    holographicMessage?: '';
+    memoryEnhancements?: '';
+    visualTheme?: '';
   }, accessControlConditions: any) {
     // Serialize the data object into a JSON string
     const serializedData = JSON.stringify(data);
+ 
+    // Handle dataToEncryptHash as needed
+    const dataToEncryptHash = encryptedData.dataToEncryptHash;
+    console.log('Data to Encrypt Hash:', dataToEncryptHash);
 
     // Encrypt the data and return as JSON
     const { ciphertext, dataToEncryptHash } = await LitJsSdk.encryptToJson(

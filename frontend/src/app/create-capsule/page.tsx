@@ -22,7 +22,6 @@ const CreateCapsule: React.FC = () => {
     visualTheme: '',
   });
   const [loading, setLoading] = useState(false);
-  const [attestationId, setAttestationId] = useState<string | null>(null);
 
   // Function to handle file uploads
   const handleFileUpload = (files: FileList) => {
@@ -47,20 +46,22 @@ const handleFinalSubmit = async () => {
 
     // Step 3: Create Capsule Data
     const capsuleData = {
-      data: 'Your file data or other relevant content', // Example data
-      unlockDate: new Date(unlockDate),
-      authorizedUsers: recipients,
-      paymentRequired: false, // Assuming no payment is required
-      holographicMessage: 'Your holographic message',
-      memoryEnhancements: 'Memory enhancements',
-      visualTheme: 'Visual theme',
-    };
+      data: 'string', // Example data
+      unlockDate: 1234567890,
+      authorizedUsers: ["address1", "address2"],
+      holographicMessage: 'Hello, world!',
+      memoryEnhancements: 'Enhanced memory',
+      visualTheme: 'Dark theme',
+      indexingValue: "10000000000",
+    }
+    // Log the capsule data to verify its structure
+    console.log("Capsule Data:", capsuleData);
 
     // Step 4: Encrypt and Store Data on Arweave
     const client = new LitJsSdk.LitNodeClient({
       litNetwork: LitNetwork.Datil,
     });
-    
+
      const encryptAndStoreOnArweave = async (capsuleData: any) => {
       try {
         // Connect to Lit Protocol network
@@ -84,6 +85,9 @@ const handleFinalSubmit = async () => {
     };
 
     // Step 5: Create Attestation on-chain
+     console.log("Submitting attestation with schemaId:", schemaId);
+     console.log("Capsule data:", capsuleData);
+     
       await createAttestation(schemaId, capsuleData);
       console.log("Attestation created successfully");
     } catch (error) {

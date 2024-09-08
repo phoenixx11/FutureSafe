@@ -20,7 +20,11 @@ const schema: Schema = {
   data: [
     { name: "data", type: "string"},
     { name: "unlockDate", type: "string"}, 
-    { name: "authorizedUsers", type: "address[]"},
+    { name: "authorizedUsers", type: "string[]"},
+    { name: "holographicMessage", type: "string"},
+    { name: "memoryEnhancements", type: "string"}, 
+    { name: "visualTheme", type: "string"},
+    { name: "indexingValue", type: "string"},
   ],
 };
 

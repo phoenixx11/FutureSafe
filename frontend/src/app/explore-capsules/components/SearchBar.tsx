@@ -2,7 +2,7 @@
 "use client";
 import React, { useState } from 'react';
 import styles from '../components/styles.module.css';
-import { queryAttestationList } from '../../backend/services/attestationService';
+//import { queryAttestationList } from '../../backend/services/attestationService';
 import { decryptDataWithLitAction } from '../../../services/litActions';
 
 interface SearchBarProps {
